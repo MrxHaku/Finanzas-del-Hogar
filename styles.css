@@ -159,6 +159,29 @@ body {
 footer { padding: 18px 22px; text-align: center; }
 footer p { max-width: 760px; margin: auto; color: rgba(38,32,42,.75); font-size: 11.5px; line-height: 1.6; }
 
+.tithe-focus .church-giving {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+  margin-top: 22px;
+  padding: 18px;
+  border-radius: 14px;
+  background: #f5c978 !important;
+}
+
+.tithe-focus .giving-button {
+  display: inline-block !important;
+  flex: none;
+  padding: 11px 15px;
+  border-radius: 999px;
+  background: var(--ink) !important;
+  color: #fff !important;
+  text-decoration: none;
+  font: 600 11px 'Sora';
+}
+
 @media (max-width: 920px) {
   .app-layout { grid-template-columns: 170px 1fr; }
   .expense-layout { grid-template-columns: 1fr; }
