@@ -84,7 +84,7 @@ function render() {
 
   renderIncomeList(data.incomes);
   renderExpenseList(data.expenses);
-  renderPie([available, expenses, tithe], ['#72c889', '#e88fa4', '#f5c978']);
+  renderPie([available, expenses, tithe], ['#7296c8', '#e88fa4', '#f5c978']);
   renderCategories(data.expenses);
   renderWave(data.incomes, data.expenses);
 }
