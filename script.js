@@ -10,6 +10,8 @@ const months = {
 let selectedMonth = '2026-08';
 let currency = 'COP';
 const usdRate = 3150;
+const minimumWage = 1750905;
+const fixedRates = { socialSecurity: 0.125 + 0.16 + 0.00522, laborReserve: 0.0833 + 0.01 + 0.0833 + 0.0417 };
 
 const $ = id => document.getElementById(id);
 const total = items => items.reduce((sum, item) => sum + Number(item.amount || 0), 0);
@@ -50,6 +52,13 @@ function formatMoneyInput(input) {
   input.value = amount ? `$ ${amount.toLocaleString('es-CO')}` : '';
 }
 
+function getFixedExpenses() {
+  return {
+    socialSecurity: minimumWage * fixedRates.socialSecurity,
+    laborReserve: minimumWage * fixedRates.laborReserve
+  };
+}
+
 function updatePeriodLabels() {
   document.querySelectorAll('.period-copy').forEach(element => {
     element.textContent = months[selectedMonth];
@@ -61,9 +70,13 @@ function updatePeriodLabels() {
 function render() {
   const data = getMonthData()[selectedMonth];
   const income = total(data.incomes);
-  const expenses = total(data.expenses);
-  const tithe = income * 0.1;
-  const available = Math.max(income - expenses - tithe, 0);
+  const manualExpenses = total(data.expenses);
+  const fixed = getFixedExpenses();
+  const fixedTotal = fixed.socialSecurity + fixed.laborReserve;
+  const expenses = fixedTotal + manualExpenses;
+  const availableBeforeTithe = Math.max(income - expenses, 0);
+  const tithe = availableBeforeTithe * 0.1;
+  const available = Math.max(availableBeforeTithe - tithe, 0);
   const used = income ? Math.min((expenses + tithe) / income * 100, 100) : 0;
 
   updatePeriodLabels();
@@ -73,7 +86,9 @@ function render() {
   $('totalAvailable').textContent = money(available);
   $('flowTotal').textContent = money(available);
   $('expenseViewTotal').textContent = money(expenses);
-  $('expenseCount').textContent = data.expenses.length;
+  $('expenseCount').textContent = data.expenses.length + 2;
+  $('socialSecurityValue').textContent = money(fixed.socialSecurity);
+  $('laborReserveValue').textContent = money(fixed.laborReserve);
   $('titheValue').textContent = money(tithe);
   $('tithePaid').checked = Boolean(data.tithePaid);
   $('usageLabel').textContent = `${Math.round(used)}%`;
@@ -83,9 +98,9 @@ function render() {
     : 'Registra tus ingresos para calcular el diezmo.';
 
   renderIncomeList(data.incomes);
-  renderExpenseList(data.expenses);
+  renderExpenseList(data.expenses, fixed);
   renderPie([available, expenses, tithe], ['#7296c8', '#e88fa4', '#f5c978']);
-  renderCategories(data.expenses);
+  renderCategories(data.expenses, fixed);
   renderWave(data.incomes, data.expenses);
 }   
 
@@ -100,15 +115,18 @@ function renderIncomeList(incomes) {
     : '<div class="empty">Aún no hay ingresos registrados.</div>';
 }
 
-function renderExpenseList(expenses) {
-  $('expenseList').innerHTML = expenses.length
+function renderExpenseList(expenses, fixed) {
+  const fixedRows = `
+    <div class="expense-row fixed-row-list"><span>🩺 Seguridad social<small>Gasto fijo · basado en 1 SMMLV</small></span><strong>${money(fixed.socialSecurity)}</strong><span class="fixed-tag">Fijo</span></div>
+    <div class="expense-row fixed-row-list"><span>🧳 Reserva laboral<small>Cesantías, intereses, prima y vacaciones</small></span><strong>${money(fixed.laborReserve)}</strong><span class="fixed-tag">Fijo</span></div>`;
+  $('expenseList').innerHTML = fixedRows + (expenses.length
     ? expenses.slice().reverse().map((item, index) => `
       <div class="expense-row">
         <span>${item.type} ${escapeHtml(item.name)}<small>${item.category} · día ${dayFor(item)}</small></span>
         <strong>${money(item.amount)}</strong>
         <button class="remove" data-kind="expense" data-index="${expenses.length - 1 - index}" aria-label="Eliminar gasto">×</button>
       </div>`).join('')
-    : '<div class="empty">Aún no hay gastos registrados este mes.</div>';
+    : '<div class="empty">Aún no hay gastos manuales registrados este mes.</div>');
 }
 
 function piePoint(angle, radius) {
@@ -137,8 +155,10 @@ function renderPie(values, colors) {
   }).join('');
 }
 
-function renderCategories(expenses) {
+function renderCategories(expenses, fixed) {
   const categories = {};
+  categories['🩺 Seguridad social'] = fixed.socialSecurity;
+  categories['🧳 Reserva laboral'] = fixed.laborReserve;
   expenses.forEach(item => {
     categories[item.category] = (categories[item.category] || 0) + Number(item.amount);
   });
@@ -275,7 +295,12 @@ $('clearButton').addEventListener('click', () => {
 $('downloadButton').addEventListener('click', () => {
   const data = getMonthData()[selectedMonth];
   const income = total(data.incomes);
-  const report = `CASA. · ${months[selectedMonth]}\n\nIngresos: ${money(income)}\nGastos: ${money(total(data.expenses))}\nDiezmo: ${money(income * 0.1)}\nDisponible: ${money(Math.max(income - total(data.expenses) - income * 0.1, 0))}`;
+  const fixed = getFixedExpenses();
+  const fixedTotal = fixed.socialSecurity + fixed.laborReserve;
+  const expenses = fixedTotal + total(data.expenses);
+  const tithe = Math.max(income - expenses, 0) * 0.1;
+  const available = Math.max(income - expenses - tithe, 0);
+  const report = `CASA. · ${months[selectedMonth]}\n\nIngresos: ${money(income)}\nSeguridad social: ${money(fixed.socialSecurity)}\nReserva laboral: ${money(fixed.laborReserve)}\nGastos: ${money(expenses)}\nDiezmo: ${money(tithe)}\nDisponible: ${money(available)}`;
   const link = document.createElement('a');
   link.href = URL.createObjectURL(new Blob([report], { type: 'text/plain' }));
   link.download = `reporte-casa-${selectedMonth}.txt`;

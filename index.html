@@ -6,7 +6,7 @@
 <title>casa. — economía del hogar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=3">
+<link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
 <main class="wrap">
@@ -153,18 +153,23 @@
 </div>
 <span class="count" id="expenseCount">0</span>
 </div>
+<div class="fixed-expenses">
+<div class="fixed-heading"><strong>📌 Gastos fijos automáticos</strong><span>Basados en 1 SMMLV</span></div>
+<div class="fixed-row"><span>🩺 Seguridad social<small>Salud 12,5% · Pensión 16% · ARL 0,522%</small></span><strong id="socialSecurityValue">$0</strong></div>
+<div class="fixed-row"><span>🧳 Reserva laboral<small>Cesantías · intereses · prima · vacaciones</small></span><strong id="laborReserveValue">$0</strong></div>
+</div>
 <form class="expense-form" id="expenseForm">
 <label>¿Qué pagaste?<input id="expenseName" type="text" placeholder="Ej. mercado, arriendo" required>
 </label>
 <label>Valor<input id="expenseAmount" class="money-input" type="text" inputmode="numeric" placeholder="$ 0" autocomplete="off" required>
 </label>
 <label>Medio de pago<select id="expenseType">
-<option value="🏦 Banco">🏦 Banco</option>
 <option value="💵 Efectivo">💵 Efectivo</option>
+<option value="💳 Tarjeta debito Falabella">💳 Tarjeta debito Falabella</option>
+<option value="💳 Tarjeta debito Nu">💳 Tarjeta debito Nu</option>
+<option value="📱 Tarjeta debito Nequi">📱 Tarjeta debito Nequi</option>
 <option value="🔁 Transferencia">🔁 Transferencia</option>
 <option value="🏧 Cajero">🏧 Cajero</option>
-<option value="💳 Tarjeta Alkosto">💳 Tarjeta Alkosto</option>
-<option value="🛒 Compra">🛒 Compra</option>
 </select>
 </label>
 <label>Categoría<select id="expenseCategory">
@@ -174,6 +179,10 @@
 <option>🍎 Alimentación</option>
 <option>🩺 Salud</option>
 <option>🎉 Ocio</option>
+<option>👕 Ropa</option>
+<option>🎬 Cine</option>
+<option>💻 Licencias</option>
+<option>🤝 Préstamo</option>
 <option>📦 Otros</option>
 </select>
 </label>

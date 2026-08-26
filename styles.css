@@ -137,6 +137,14 @@ body {
 .category-track { height: 13px; overflow: hidden; border-radius: 99px; background: #e7e1dd; }
 .category-track i { display: block; height: 100%; border-radius: inherit; background: var(--expense); }
 .expense-usage { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+.fixed-expenses { margin: 18px 0; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: #edf3fa; }
+.fixed-heading { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 8px; color: var(--ink); font-size: 12px; }
+.fixed-heading span { color: #777; font-size: 10px; }
+.fixed-row { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 11px; }
+.fixed-row small { display: block; margin-top: 3px; color: #777; font-size: 10px; }
+.fixed-row strong { white-space: nowrap; font-family: 'Sora'; }
+.fixed-row-list { grid-template-columns: 1fr auto auto; }
+.fixed-tag { padding: 4px 7px; border-radius: 999px; background: var(--tithe); color: var(--ink); font-size: 9px; font-weight: 600; }
 .church-giving { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 22px; padding: 18px; border-radius: 14px; background: #f5c978; }
 .church-giving strong { display: block; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; }
 .church-giving span { display: block; max-width: 42ch; margin-top: 5px; color: #6b5961; font-size: 11px; line-height: 1.45; }
