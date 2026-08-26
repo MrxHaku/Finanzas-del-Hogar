@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>casa. — economía del hogar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="wrap">
+<section class="card">
+<header class="topbar">
+<div class="logo">
+<b>casa.</b>
+<span>economía del hogar</span>
+</div>
+<div class="ticker">
+<div class="ticker-track">
+<span>🤲 “Jehová es mi pastor; nada me faltará.” · Salmo 23:1</span>
+<span>🌾 “Mi Dios suplirá todo lo que os falta.” · Filipenses 4:19</span>
+<span>🏠 “Jehová proveerá.” · Génesis 22:14</span>
+<span>🤲 “Jehová es mi pastor; nada me faltará.” · Salmo 23:1</span>
+<span>🌾 “Mi Dios suplirá todo lo que os falta.” · Filipenses 4:19</span>
+<span>🏠 “Jehová proveerá.” · Génesis 22:14</span>
+</div>
+</div>
+</header>
+<div class="month-tabs" role="tablist" aria-label="Meses">
+<button class="month-tab active" data-month="2026-08">Agosto 2026</button>
+<button class="month-tab" data-month="2026-09">Septiembre 2026</button>
+<button class="month-tab" data-month="2026-10">Octubre 2026</button>
+<button class="month-tab" data-month="2026-11">Noviembre 2026</button>
+<button class="month-tab" data-month="2026-12">Diciembre 2026</button>
+</div>
+<div class="app-layout">
+<aside class="sidebar">
+<div class="nav-label">NAVEGACIÓN</div>
+<button class="navcard nc-blue active" data-view="home">
+<span class="n">01</span>
+<span class="t">🏠 Inicio</span>
+</button>
+<button class="navcard nc-yellow" data-view="expenses">
+<span class="n">02</span>
+<span class="t">🧾 Gastos</span>
+</button>
+<button class="navcard nc-orange" data-view="tithe">
+<span class="n">03</span>
+<span class="t">🙏 Diezmo</span>
+</button>
+<button class="navcard nc-green" data-view="frequency">
+<span class="n">04</span>
+<span class="t">〰️ Frecuencia</span>
+</button>
+<button class="toggle" id="currencyButton">
+<span id="currencyLabel">COP $</span>
+<span>⇄</span>
+</button>
+<div class="icon-row">
+<button title="Descargar reporte" id="downloadButton">⭳</button>
+<button title="Imprimir dashboard" id="printButton">🖶</button>
+<button title="Borrar datos del mes" id="clearButton">⌫</button>
+</div>
+</aside>
+<main class="views">
+<section class="view active" id="view-home">
+<div class="home-grid">
+<section class="content">
+<div class="pill">📅 <span id="periodLabel">Agosto 2026</span>
+</div>
+<h1 class="hero">La casa,<br>
+<em>en equilibrio.</em>
+</h1>
+<p class="lead">Registra lo que entra y lo que sale. El resumen se actualiza solo para que sepas cuánto puedes usar, cuánto has gastado y qué queda para el resto del mes.</p>
+<form class="income-form" id="incomeForm">
+<label>💵 Dinero que entró<input id="incomeAmount" class="money-input" type="text" inputmode="numeric" placeholder="$ 0" autocomplete="off" required>
+</label>
+<label>¿De dónde viene?<input id="incomeName" type="text" placeholder="Ej. trabajo, venta, regalo" required>
+</label>
+<button class="btn-black" type="submit">Añadir ingreso <span>＋</span>
+</button>
+</form>
+<div class="income-list" id="incomeList">
+</div>
+</section>
+<section class="visual">
+<div class="flow-chart">
+<h2 id="flowTitle">Resumen de Agosto</h2>
+<div class="pie-area">
+<svg class="pie" id="flowPie" viewBox="0 0 190 190" role="img" aria-label="Resumen del mes">
+<g id="pieSegments">
+</g>
+<circle cx="95" cy="95" r="44" fill="#26202a"/>
+</svg>
+<div class="pie-tooltip" id="pieTooltip">
+</div>
+<div class="pie-legend">
+<div class="legend-item">
+<span class="legend-dot available-dot">
+</span>Disponible</div>
+<div class="legend-item">
+<span class="legend-dot expense-dot">
+</span>Gastos</div>
+<div class="legend-item">
+<span class="legend-dot tithe-dot">
+</span>Diezmo</div>
+</div>
+</div>
+<div class="flow-total" id="flowTotal">$0</div>
+<div class="flow-caption">disponible este mes</div>
+</div>
+</section>
+</div>
+<div class="stats">
+<div class="stat bar-blue">
+<div class="label">💰 Entró</div>
+<div class="value" id="totalIncome">$0</div>
+</div>
+<div class="stat bar-red">
+<div class="label">🧾 Gastado</div>
+<div class="value" id="totalExpenses">$0</div>
+</div>
+<div class="stat bar-yellow">
+<div class="label">🙏 Diezmo</div>
+<div class="value" id="totalTithe">$0</div>
+</div>
+<div class="stat bar-green">
+<div class="label">🌱 Disponible</div>
+<div class="value" id="totalAvailable">$0</div>
+</div>
+</div>
+</section>
+<section class="view" id="view-expenses">
+<div class="view-heading">
+<div>
+<div class="pill">📅 <span class="period-copy">Agosto 2026</span>
+</div>
+<h1>Registrar gastos</h1>
+<p class="lead">Ordena cada salida por medio de pago y categoría para ver en qué se está usando el dinero.</p>
+</div>
+<div class="view-total">
+<span>Total gastado</span>
+<strong id="expenseViewTotal">$0</strong>
+</div>
+</div>
+<div class="expense-layout">
+<section class="tblcard">
+<div class="section-heading">
+<div>
+<h3>🧾 Nuevo gasto</h3>
+<div class="tsub">Registra compras, servicios, retiros o transferencias.</div>
+</div>
+<span class="count" id="expenseCount">0</span>
+</div>
+<form class="expense-form" id="expenseForm">
+<label>¿Qué pagaste?<input id="expenseName" type="text" placeholder="Ej. mercado, arriendo" required>
+</label>
+<label>Valor<input id="expenseAmount" class="money-input" type="text" inputmode="numeric" placeholder="$ 0" autocomplete="off" required>
+</label>
+<label>Medio de pago<select id="expenseType">
+<option value="🏦 Banco">🏦 Banco</option>
+<option value="💵 Efectivo">💵 Efectivo</option>
+<option value="🔁 Transferencia">🔁 Transferencia</option>
+<option value="🏧 Cajero">🏧 Cajero</option>
+<option value="💳 Tarjeta Alkosto">💳 Tarjeta Alkosto</option>
+<option value="🛒 Compra">🛒 Compra</option>
+</select>
+</label>
+<label>Categoría<select id="expenseCategory">
+<option>🏠 Vivienda</option>
+<option>💡 Servicios</option>
+<option>🚌 Transporte</option>
+<option>🍎 Alimentación</option>
+<option>🩺 Salud</option>
+<option>🎉 Ocio</option>
+<option>📦 Otros</option>
+</select>
+</label>
+<button class="small-btn" type="submit">Guardar gasto <span>＋</span>
+</button>
+</form>
+<div class="expense-list" id="expenseList">
+</div>
+</section>
+<section class="tblcard category-card">
+<div class="section-heading">
+<div>
+<h3>📊 Categorías</h3>
+<div class="tsub">De mayor a menor gasto.</div>
+</div>
+</div>
+<div class="category-list" id="categoryList">
+</div>
+</section>
+</div>
+</section>
+<section class="view" id="view-tithe">
+<div class="view-heading">
+<div>
+<div class="pill">📅 <span class="period-copy">Agosto 2026</span>
+</div>
+<h1>Solo diezmo</h1>
+<p class="lead">Una vista tranquila para separar con claridad el diezmo de los ingresos del hogar.</p>
+</div>
+<div class="tithe-verse">“Honra a Jehová con tus bienes.”<small>Proverbios 3:9</small>
+</div>
+</div>
+<section class="tithe-focus tblcard">
+<div class="tithe-big">
+<span>🙏 10% de los ingresos</span>
+<strong id="titheValue">$0</strong>
+<label class="check-label">
+<input id="tithePaid" type="checkbox"> Ya lo entregué</label>
+</div>
+<div class="progress-label">
+<span>Uso del dinero del mes</span>
+<span id="usageLabel">0%</span>
+</div>
+<div class="progress">
+<div id="usageBar">
+</div>
+</div>
+<p class="mini-note" id="titheNote">Registra tus ingresos para calcular el diezmo.</p>
+</section>
+</section>
+<section class="view" id="view-frequency">
+<div class="view-heading">
+<div>
+<div class="pill">📅 <span class="period-copy">Agosto 2026</span>
+</div>
+<h1>Frecuencia de movimientos</h1>
+<p class="lead">Observa qué días concentran más actividad en la casa.</p>
+</div>
+</div>
+<section class="tblcard frequency-card">
+<div class="section-heading">
+<div>
+<h3>〰️ Ritmo diario</h3>
+<div class="tsub">La línea une la cantidad de movimientos de cada día del mes.</div>
+</div>
+<div class="wave-key">
+<label>
+<input type="checkbox" id="showIncomeWave" checked>
+<i class="key-income">
+</i>Ingresos</label>
+<label>
+<input type="checkbox" id="showExpenseWave" checked>
+<i class="key-expense">
+</i>Gastos</label>
+</div>
+</div>
+<svg class="wave-chart" id="waveChart" viewBox="0 0 900 250" role="img" aria-label="Frecuencia diaria de ingresos y gastos">
+</svg>
+</section>
+</section>
+</main>
+</div>
+</section>
+<footer>
+<p>Los datos se guardan únicamente en este navegador. Puedes usar este dashboard desde tu tablet, computador o celular.</p>
+</footer>
+</main>
+<script src="script.js">
+</script>
+</body>
+</html>
