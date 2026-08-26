@@ -136,6 +136,12 @@ body {
 .category-row strong { font-family: 'Sora'; }
 .category-track { height: 13px; overflow: hidden; border-radius: 99px; background: #e7e1dd; }
 .category-track i { display: block; height: 100%; border-radius: inherit; background: var(--expense); }
+.expense-usage { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+.church-giving { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 22px; padding: 18px; border-radius: 14px; background: #f5c978; }
+.church-giving strong { display: block; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; }
+.church-giving span { display: block; max-width: 42ch; margin-top: 5px; color: #6b5961; font-size: 11px; line-height: 1.45; }
+.giving-button { flex: none; padding: 11px 15px; border-radius: 999px; background: var(--ink); color: #fff; text-decoration: none; font: 600 11px 'Sora'; }
+.giving-button span { display: inline; margin: 0; color: #fff; font-size: 14px; }
 
 /* Frequency chart */
 .frequency-card { margin-top: 0; background: #fff8ec; }
@@ -175,6 +181,8 @@ footer p { max-width: 760px; margin: auto; color: rgba(38,32,42,.75); font-size:
   .stat .value { font-size: 18px; }
   .view-heading { flex-direction: column; }
   .view-total { width: 100%; }
+  .church-giving { align-items: stretch; flex-direction: column; }
+  .giving-button { text-align: center; }
   .tithe-big { align-items: flex-start; flex-direction: column; }
   .activity-list { grid-template-columns: 1fr; }
   .wave-key { align-self: flex-start; }
