@@ -87,7 +87,7 @@ function render() {
   renderPie([available, expenses, tithe], ['#7296c8', '#e88fa4', '#f5c978']);
   renderCategories(data.expenses);
   renderWave(data.incomes, data.expenses);
-}
+}   
 
 function renderIncomeList(incomes) {
   $('incomeList').innerHTML = incomes.length
